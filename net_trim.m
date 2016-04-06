@@ -1,7 +1,4 @@
-load ddd.mat;
-DSAmain=ddd;
-%
-
+function [newnodelist,linkfrom_trim,linkto_trim]=net_trim(DSAmain)
 n=size(DSAmain,3);
 slicelabel=zeros(size(DSAmain,1),size(DSAmain,2),n);%store label location in 3D map
 labelindex=zeros(n,100);%max node number in each slice:100
@@ -21,16 +18,7 @@ for i=1:n
         labelindex(i,j)=size(node,1);
 		if i>1
 			comlogic=slicelabel(:,:,i-1).*currentnodearea;  %see whether two binary slices have common 1 area
-			%[linkednum,insliceid] =
-			%hist(comlogic(:),unique(comlogic(:)));%slower in unique
             [linkednum,insliceid] = hist(comlogic(:),(0:max(comlogic(:)))');
-%             for p=0:max(comlogic(:))
-%                 nodesize=size(find(comlogic(:)==p),1);
-%                 if nodesize>0
-%                   insliceid=[insliceid,p];
-%                   linkednum=[linkednum,nodesize];
-%                 end
-%             end
 			for k=1:size(linkednum,2)
                if insliceid(k)>0 && linkednum(k)>0 && labelindex(i-1,insliceid(k))>0
                    linkfrom=[linkfrom,labelindex(i,j),];
@@ -52,7 +40,7 @@ linkto_trim=linkto;
 linkfrom_trim=linkfrom;
 for linki=size(linkfrom,2):-1:1
     current_node_id=linkfrom(linki);
-    if node(current_node_id,3)<10
+    if node(current_node_id,3)<10   %parent node weight < 10
         del_from_index=find(linkfrom_trim(:)==current_node_id);
         linkfrom_trim(del_from_index)=[];    %del all current node's link pair in both linkfrom and linkto
         linkto_trim(del_from_index)=[];
@@ -63,7 +51,6 @@ for linki=size(linkfrom,2):-1:1
         parent_node_id=linkfrom_trim(find(linkto_trim(:)==current_node_id));
         child_node_id=linkto_trim(linki);
         linkfrom_trim(find(linkfrom_trim(:)==current_node_id))=parent_node_id;    %child node's parent change to current node's parent
-        %linkto(find(linkto(:)==current_node_id))=child_node_id; %parent node's child change to current node's child
         %del child node's pair
         del_to_index=find(linkto_trim(:)==current_node_id);
         linkfrom_trim(del_to_index)=[];
@@ -76,6 +63,19 @@ for linki=size(linkfrom,2):-1:1
         newid=newid+1;
     end
 end
+%del child node with weight < 10
+for linki=1:size(linkto_trim,2)
+    current_node_id=linkto_trim(linki);
+    if node(current_node_id,3)<10 && size(find(linkto_trim(:)==current_node_id),1) ==1 %child node weight < 10 and is single childnode
+        del_to_index=find(linkto_trim(:)==current_node_id);
+        linkfrom_trim(del_to_index)=[];    %del all current node's link pair in both linkfrom and linkto
+        linkto_trim(del_to_index)=[];
+    end
+    if linki>=size(linkto_trim,2)
+        break;
+    end
+end
+    
 %assign new id for linkto nodes(end of each branch) 
 for linki=size(linkto_trim,2):-1:1
     current_node_id=linkto_trim(linki);
@@ -100,5 +100,7 @@ for linki=1:size(linkfrom_trim,2)
     origin_to_id=find(newidlist(:)==linkto_trim(linki));
     line([node(oldidlist(linkfrom_trim(linki)),2),node(oldidlist(linkto_trim(linki)),2)],[node(oldidlist(linkfrom_trim(linki)),1),node(oldidlist(linkto_trim(linki)),1)]);
 end
-a=[linkfrom;linkto]';
-dlmwrite('net.txt',a ,'delimiter', ' ');
+newnodelist=node(oldidlist,:);
+% a=[linkfrom;linkto]';
+% dlmwrite('net.txt',a ,'delimiter', ' ');
+end
