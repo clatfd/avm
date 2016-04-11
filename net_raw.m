@@ -1,4 +1,11 @@
 function net_raw(DSAmain)
+if size(size(DSAmain),2)==2
+    DSAmain=reshape(DSAmain,size(DSAmain,1),size(DSAmain,2),1);
+    DSAmain=permute(DSAmain,[3,2,1]);
+elseif size(size(DSAmain),2)==3
+else
+    error('Invalid image dimention!')
+end
 n=size(DSAmain,3);
 slicelabel=zeros(size(DSAmain,1),size(DSAmain,2),n);%store label location in 3D map
 labelindex=zeros(n,100);%max node number in each slice:100
@@ -31,6 +38,7 @@ for i=1:n
 	end
 end
 
+figure;
 for ni=1:size(node,1)
     plot(node(ni,2),node(ni,1),'o');
     hold on 

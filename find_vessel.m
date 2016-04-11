@@ -1,3 +1,4 @@
+function [MR,DSA]=find_vessel()
 geshi={'*.dcm','Dicom image (*.dcm)';...
        '*.bmp','Bitmap image (*.bmp)';...
        '*.jpg','JPEG image (*.jpg)';...
@@ -49,4 +50,5 @@ for i=1:n
     %
     DSAo(:,:,serialno)=I;
     DSA(:,:,serialno)=im2bw(imadjust(mat2gray(I),[],[]));
+end
 end

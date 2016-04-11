@@ -1,4 +1,11 @@
 function [newnodelist,linkfrom_trim,linkto_trim]=net_trim(DSAmain)
+if size(size(DSAmain),2)==2
+    DSAmain=reshape(DSAmain,size(DSAmain,1),size(DSAmain,2),1);
+    DSAmain=permute(DSAmain,[3,2,1]);
+elseif size(size(DSAmain),2)==3
+else
+    error('Invalid image dimention!')
+end
 n=size(DSAmain,3);
 slicelabel=zeros(size(DSAmain,1),size(DSAmain,2),n);%store label location in 3D map
 labelindex=zeros(n,100);%max node number in each slice:100
@@ -40,7 +47,7 @@ linkto_trim=linkto;
 linkfrom_trim=linkfrom;
 for linki=size(linkfrom,2):-1:1
     current_node_id=linkfrom(linki);
-    if node(current_node_id,3)<10   %parent node weight < 10
+    if node(current_node_id,3)<2   %parent node weight < 10
         del_from_index=find(linkfrom_trim(:)==current_node_id);
         linkfrom_trim(del_from_index)=[];    %del all current node's link pair in both linkfrom and linkto
         linkto_trim(del_from_index)=[];
@@ -55,7 +62,7 @@ for linki=size(linkfrom,2):-1:1
         del_to_index=find(linkto_trim(:)==current_node_id);
         linkfrom_trim(del_to_index)=[];
         linkto_trim(del_to_index)=[];
-        newnode_weight(newidlist(parent_node_id))=newnode_weight(newidlist(parent_node_id))+node(current_node_id,3);        %node weight combined to parent
+        newnode_weight(newidlist(parent_node_id))=newnode_weight(newidlist(parent_node_id))+2*node(current_node_id,3);        %node weight*2 combined to parent
     elseif newidlist(current_node_id)==0
         newidlist(current_node_id)=newid;
         oldidlist(newid)=current_node_id;
@@ -66,7 +73,7 @@ end
 %del child node with weight < 10
 for linki=1:size(linkto_trim,2)
     current_node_id=linkto_trim(linki);
-    if node(current_node_id,3)<10 && size(find(linkto_trim(:)==current_node_id),1) ==1 %child node weight < 10 and is single childnode
+    if node(current_node_id,3)<2 && size(find(linkto_trim(:)==current_node_id),1) ==1 %child node weight < 10 and is single childnode
         del_to_index=find(linkto_trim(:)==current_node_id);
         linkfrom_trim(del_to_index)=[];    %del all current node's link pair in both linkfrom and linkto
         linkto_trim(del_to_index)=[];
@@ -89,18 +96,19 @@ end
 linkfrom_trim=newidlist(linkfrom_trim);
 linkto_trim=newidlist(linkto_trim);
 
+figure;
 for ni=1:size(find(newidlist(:)>0),1)
-    plot(node(oldidlist(ni),2),node(oldidlist(ni),1),'o');
+    plot(node(oldidlist(ni),2),-node(oldidlist(ni),1),'o');
     hold on 
-    text(node(oldidlist(ni),2),node(oldidlist(ni),1),mat2str(newnode_weight(ni)));
+    text(node(oldidlist(ni),2),-node(oldidlist(ni),1),mat2str(newnode_weight(ni)));
     hold on 
 end
 for linki=1:size(linkfrom_trim,2)
     origin_from_id=find(newidlist(:)==linkfrom_trim(linki));
     origin_to_id=find(newidlist(:)==linkto_trim(linki));
-    line([node(oldidlist(linkfrom_trim(linki)),2),node(oldidlist(linkto_trim(linki)),2)],[node(oldidlist(linkfrom_trim(linki)),1),node(oldidlist(linkto_trim(linki)),1)]);
+    line([node(oldidlist(linkfrom_trim(linki)),2),node(oldidlist(linkto_trim(linki)),2)],[-node(oldidlist(linkfrom_trim(linki)),1),-node(oldidlist(linkto_trim(linki)),1)]);
 end
-newnodelist=node(oldidlist,:);
+newnodelist=[node(oldidlist,:),newnode_weight'];
 % a=[linkfrom;linkto]';
 % dlmwrite('net.txt',a ,'delimiter', ' ');
 end
