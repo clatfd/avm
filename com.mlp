@@ -1,7 +1,7 @@
 <!DOCTYPE MeshLabDocument>
 <MeshLabProject>
  <MeshGroup>
-  <MLMesh filename="DSA.ply" label="DSA.ply">
+  <MLMesh label="DSA.ply" filename="DSA.ply">
    <MLMatrix44>
 1 0 0 2.02603 
 0 1 0 -7.29172 
@@ -9,11 +9,11 @@
 0 0 0 1 
 </MLMatrix44>
   </MLMesh>
-  <MLMesh filename="MR_o.ply" label="MR.ply">
+  <MLMesh label="MR.ply" filename="MR_o.ply">
    <MLMatrix44>
-1 0 0 -7.83081 
-0 1 0 1.1241 
-0 0 1 98.864 
+-0.999997 -0.00245888 7.48657e-06 562.801 
+-0.0024589 0.999992 -0.00304468 -4.9514 
+0 -0.00304469 -0.999995 333.258 
 0 0 0 1 
 </MLMatrix44>
   </MLMesh>

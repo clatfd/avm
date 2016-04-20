@@ -26,9 +26,9 @@ for ni=1:size(SWC,1)
     if nargin==1
         text(SWC(ni,3),-SWC(ni,4),mat2str(round(SWC(ni,6)*10)/10));
     elseif nargin==2
-        text(SWC(ni,3),-SWC(ni,4),[mat2str(round(SWC(ni,6)*10)/10),',',mat2str(round(voltlist(ni)*10)/10)]);
+        text(SWC(ni,3),-SWC(ni,4),[mat2str(round(SWC(ni,6)*10)/10),' ',mat2str(round(voltlist(ni)*10)/10)]);
     elseif nargin==3
-        text(SWC(ni,3),-SWC(ni,4),[mat2str(round(SWC(ni,6)*10)/10),',',mat2str(round(voltlist(ni)*10)/10),',',mat2str(round(voltlist_n(ni)*10)/10)]);
+        text(SWC(ni,3),-SWC(ni,4),[mat2str(round(SWC(ni,6)*10)/10),' ',mat2str(round(voltlist(ni)*10)/10),' ',mat2str(round(voltlist_n(ni)*10)/10)]);
     end
     hold on 
     if ni>1
@@ -37,11 +37,11 @@ for ni=1:size(SWC,1)
             line([SWC(ni,3),SWC(linkto_id,3)],[-SWC(ni,4),-SWC(linkto_id,4)]);
             diff0=round((SWC(ni,6)-SWC(linkto_id,6))*10)/10;
             if nargin>=2
-                diffv1=round((voltlist(ni)-voltlist(linkto_id))*10)/10;
-                text((SWC(ni,3)+SWC(linkto_id,3))/2,(-SWC(ni,4)-SWC(linkto_id,4))/2,[mat2str(diff0),',',mat2str(diffv1)],'color','red');
+            %    diffv1=round((voltlist(ni)-voltlist(linkto_id))*10)/10;
+            %    text((SWC(ni,3)+SWC(linkto_id,3))/2,(-SWC(ni,4)-SWC(linkto_id,4))/2,[mat2str(diff0),',',mat2str(diffv1)],'color','red');
             elseif nargin==3
-                diffv2=round((voltlist_n(ni)-voltlist_n(linkto_id))*10)/10;
-                text((SWC(ni,3)+SWC(linkto_id,3))/2,(-SWC(ni,4)-SWC(linkto_id,4))/2,[mat2str(diff0),',',mat2str(diffv1),',',mat2str(diffv2)],'color','red');
+             %   diffv2=round((voltlist_n(ni)-voltlist_n(linkto_id))*10)/10;
+             %   text((SWC(ni,3)+SWC(linkto_id,3))/2,(-SWC(ni,4)-SWC(linkto_id,4))/2,[mat2str(diff0),',',mat2str(diffv1),',',mat2str(diffv2)],'color','red');
             end
         end
     end

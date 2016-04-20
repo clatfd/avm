@@ -42,20 +42,29 @@ t2_nsinodelist=getnsilist(t2_nodelist,t2_linkfrom,t2_linkto);
 paintswc('snake_tracing_1.swc',t1_nsinodelist(:,1),t1_nsinodelist(:,2));
 paintswc('snake_tracing_2.swc',t2_nsinodelist(:,1),t2_nsinodelist(:,2));
 
-t1_nodelist=[t1_nodelist,t1_nsinodelist];
-t2_nodelist=[t2_nodelist,t2_nsinodelist];
-figure;
-for degi=max(t1_nodelist(:,5)):-1:1
-    deg_index= t1_nodelist(:,5)==degi;
-    t1_subnodelist=t1_nodelist(deg_index,:);
-    t1_subnodelist=sortrows(t1_subnodelist,-7);
-    
-    deg_index= t2_nodelist(:,5)==degi;
-    t2_subnodelist=t2_nodelist(deg_index,:);
-    t2_subnodelist=sortrows(t2_subnodelist,-7);
-    
-    
-    for linki=1:size(t1_subnodelist,1)
-        line([t1_subnodelist(linki,2),t2_subnodelist(linki,2)],[-t1_subnodelist(linki,3),-t2_subnodelist(linki,3)]);
-    end
-end
+nsicompare('snake_tracing_1.swc','snake_tracing_2.swc');
+
+
+[t1_nodelist,t1_linkfrom,t1_linkto]=loadswc('snake_tracing_t.swc');
+t1_branchlist=splitbranch(t1_nodelist,t1_linkfrom,t1_linkto);
+[t1_totbranch,t1_volbranch]=calbranch(t1_nodelist,t1_branchlist);
+paintbranch(t1_nodelist,t1_linkfrom,t1_linkto,t1_branchlist,t1_totbranch,t1_volbranch);
+subbranchid=5;
+t1_RLnodelist=calRLbranch(t1_nodelist,t1_branchlist{subbranchid});
+t1_nsinodelist=getnsilist(t1_nodelist,t1_linkfrom,t1_linkto);
+t1_RLvoltlist=calRLvol(t1_nsinodelist(t1_branchlist{subbranchid}(1),1),t1_nodelist,t1_RLnodelist);
+paintRLbranch(t1_nodelist,t1_branchlist{subbranchid},t1_RLnodelist,t1_RLvoltlist);
+t1_peaknodeindex=findAngPeak(t1_RLvoltlist);
+
+[t2_nodelist,t2_linkfrom,t2_linkto]=loadswc('snake_tracing_tt.swc');
+t2_nsinodelist=getnsilist(t2_nodelist,t2_linkfrom,t2_linkto);
+t2_branchlist=splitbranch(t2_nodelist,t2_linkfrom,t2_linkto);
+[t2_totbranch,t2_volbranch]=calbranch(t2_nodelist,t2_branchlist);
+paintbranch(t2_nodelist,t2_linkfrom,t2_linkto,t2_branchlist,t2_totbranch,t2_volbranch);
+subbranchid=5;
+t2_RLnodelist5=calRLbranch(t2_nodelist,t2_branchlist{subbranchid});
+t2_nsinodelist=getnsilist(t2_nodelist,t2_linkfrom,t2_linkto);
+t2_RLvoltlist=calRLvol(t2_nsinodelist(t2_branchlist{subbranchid}(1),1),t2_nodelist,t2_RLnodelist5);
+paintRLbranch(t2_nodelist,t2_branchlist{subbranchid},t2_RLnodelist5,t2_RLvoltlist);
+t2_peaknodeindex=findAngPeak(t2_RLvoltlist);
+
