@@ -17,7 +17,7 @@ function branchlist=splitbranch(nodelist,linkfrom,linkto)
         end
     end
     for bi=1:size(branchlist,2)
-        if nodelist(branchlist{bi}(1),4)<nodelist(branchlist{bi}(end),4)
+        if nodelist(branchlist{bi}(1),4)<nodelist(branchlist{bi}(end),4)    %change direction if start from small to big
             branchlist{bi}=branchlist{bi}(length(branchlist{bi}):-1:1);
         end
     end

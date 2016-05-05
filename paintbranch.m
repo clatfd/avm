@@ -18,6 +18,8 @@ end
 %branch
 for bi=1:size(branchlist,2)
     branchnodelist=branchlist{bi}([1,end]);
+    plot(nodelist(branchlist{bi}(2),2),-nodelist(branchlist{bi}(2),3),'o','markerfacecolor','r');
+    hold on
     xpos=nodelist(branchnodelist',2);
     ypos=nodelist(branchnodelist',3);
     xposmean=mean(xpos);

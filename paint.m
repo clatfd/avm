@@ -2,17 +2,19 @@
 load ddd.mat;
 DSA=ddd;
 
+%find max connected area
 DSAmainlabel=bwlabeln(DSA);
 props = regionprops(DSAmainlabel, 'Area');
 [~,maxareaindex]=max([props.Area]);
 DSAmain = ismember(DSAmainlabel,maxareaindex);
+
 n=size(DSAmain,3);
 node=[];
 linkfrom=[];
 linkto=[];
 for i=1:n
 	slice=DSAmain(:,:,i);
-	[slicelabel slicenodenum]=bwlabel(slice);
+	[slicelabel,slicenodenum]=bwlabel(slice);
 	for j=1:slicenodenum
 		if(i>1)
 			currentnodearea=ismember(slicelabel,j);
@@ -28,7 +30,7 @@ for i=1:n
 	lastnodearea=zeros(size(DSAmain,1),size(DSAmain,2),slicenodenum);
 	lastnodeareaid=zeros(1,slicenodenum);
 	for j=1:slicenodenum
-		[d e]=find(slicelabel==j);
+		[d,e]=find(slicelabel==j);
 		if(size(d,1)>1)
 		node=[node; [uint16(mean(d)),uint16(mean(e)),i,size(d,1)]];
 	end
