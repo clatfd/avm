@@ -48,8 +48,9 @@ nsicompare('snake_tracing_1.swc','snake_tracing_2.swc');
 [t1_nodelist,t1_linkfrom,t1_linkto]=loadswc('snake_tracing_test.swc');
 t1_branchlist=splitbranch(t1_nodelist,t1_linkfrom,t1_linkto);
 % t1_ynodelist=splitynode(t1_nodelist,t1_linkfrom,t1_linkto);
-[t1_totbranch,t1_volbranch]=calbranch(t1_nodelist,t1_branchlist);
+[t1_totbranch,t1_volbranch,t1_direction]=calbranch(t1_nodelist,t1_branchlist);
 paintbranch(t1_nodelist,t1_linkfrom,t1_linkto,t1_branchlist,t1_totbranch,t1_volbranch);
+
 t1_subbranchid=6;
 t1_RLnodelist=calRLbranch(t1_nodelist,t1_branchlist{t1_subbranchid});
 t1_nsinodelist=getnsilist(t1_nodelist,t1_linkfrom,t1_linkto);
@@ -85,6 +86,9 @@ for peaki=1:size(t1_peaknodeindex,1)-1
     branchipair=findbranchipair(comp1,comp2,t1_peaknodeindex(peaki)-1);
     branchpair=[branchpair;branchipair(2:end-1,:)];
 end
+figure;
+title('RLbranchComp');
+hold on
 paintcompbranch(t1_nodelist,t1_branchlisti,branchpair);
 branchpair=[branchpair;branchipair(2:end-1,:)];
 paintcompbranch(t1_map,t2_)

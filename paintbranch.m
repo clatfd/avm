@@ -26,5 +26,4 @@ for bi=1:size(branchlist,2)
     yposmean=mean(ypos);
     text(xposmean,-yposmean,[mat2str(bi),':',mat2str(round(totbranch(bi)*100)/100),',',mat2str(round(volbranch(bi)*10)/10)]);
 end
-
 end

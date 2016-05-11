@@ -6,6 +6,9 @@ branchipair=zeros(size(comp2,1),4);
     comp2=comp2/comp2(1)*comp1(1);
     for ci=2:size(comp2,1)-1
         maxids=find(comp1(:)>=comp2(ci));
+        if size(maxids,1) ==0
+            continue;
+        end
         comtarget=maxids(end);
         if comp1(comtarget)-comp2(ci)>comp2(ci)-comp1(comtarget+1)
             comtarget=comtarget+1;

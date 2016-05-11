@@ -1,7 +1,5 @@
 function paintcompbranch(t1_nodelist,t1_branchlisti,branchpair)
-figure;
-title('RLbranchComp');
-hold on
+
 %base branch
     %draw node
     for ni=1:size(t1_branchlisti,2)
