@@ -10,8 +10,8 @@ t2_branchlist=splitbranch(t2_nodelist,t2_linkfrom,t2_linkto);
 paintbranch(t2_nodelist,t2_linkfrom,t2_linkto,t2_branchlist,t2_totbranch,t2_volbranch);
 
 branchgroup={[1,2,17],[3,4,22,35],[5,6,7,10,25,32],[8,9,33,34],[26,27,28,29,30,31],[23,24],[11,12,13],[14,15];[1,2,21],[3,4,8,24],[5,11,12,13,15,16],[17,18],[14,19],[9,10],[6,7,20],[]};
-t1_idlist=1:size(t1_totbranch,2);
-t1_branchproperties=[t1_idlist',t1_totbranch',t1_volbranch',t1_direction'];
+    t1_idlist=1:size(t1_totbranch,2);
+    t1_branchproperties=[t1_idlist',t1_totbranch',t1_volbranch',t1_direction'];
 t2_idlist=1:size(t2_totbranch,2);
 t2_branchproperties=[t2_idlist',t2_totbranch',t2_volbranch',t2_direction'];
 branchidpair=[];

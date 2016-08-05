@@ -32,7 +32,7 @@ function regiNodes(t1_nodelist,t1_linkfrom,t1_linkto,t2_nodelist,t2_linkfrom,t2_
     %subnodelist item
     for linki=1:size(t1_subnodelist,1)
         ni=t1_subnodelist(linki,1);
-        text(t1_nodelist(ni,2),-t1_nodelist(ni,3),[mat2str(linki),' ',mat2str(round(t1_subnodelist(linki,7)*10)/10)]);
+        text(t1_nodelist(ni,2)+1,-t1_nodelist(ni,3)-1,[mat2str(linki),' ',mat2str(round(t1_subnodelist(linki,7)*10)/10)]);
     end
     title('net1');
     
@@ -55,7 +55,7 @@ function regiNodes(t1_nodelist,t1_linkfrom,t1_linkto,t2_nodelist,t2_linkfrom,t2_
     %subnodelist item
     for linki=1:size(t2_subnodelist,1)
         ni=t2_subnodelist(linki,1);
-        text(t2_nodelist(ni,2),-t2_nodelist(ni,3),[mat2str(linki),' ',mat2str(round(t2_subnodelist(linki,7)*10)/10)]);
+        text(t2_nodelist(ni,2)+1,-t2_nodelist(ni,3)-1,[mat2str(linki),' ',mat2str(round(t2_subnodelist(linki,7)*10)/10)]);
     end
     title('net2');
 end
