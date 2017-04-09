@@ -13,7 +13,22 @@ for ni=1:size(nodelist,1)
         child_node_index= linkfrom(:)==neigh(neighi);
         neighneigh=[neighneigh,linkto(child_node_index)];
     end
-    neighneigh=setdiff(neighneigh,[neigh,ni]);  %del neigh and itself
+    delindex=[];
+    for x=1:length(neighneigh)
+        if (neighneigh(x)==ni)
+            delindex=[delindex,x];
+            continue;
+        end
+        for xx=1:length(neigh)
+            if (neighneigh(x)==neigh(xx))
+                delindex=[delindex,x];
+                break;
+            end
+        end
+    end
+    neighneigh(delindex)=[];
+%    neighneigh=setdiff(neighneigh,[neigh,ni]);  %del neigh and
+%    itself//slow
     neigh_weight=nodelist(neigh,4);
     neighneig_weight=nodelist(neighneigh,4);
     nsinodelist(ni,1)=nodelist(ni,4)+sum(neigh_weight.*0.6);
