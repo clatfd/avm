@@ -1,3 +1,2 @@
-AVM vessel tumor diagnosis
-paint.m
-matlab code to paint arteries as red and veins as blue according to distance to seed points
+A vascular image registration method based on network structure and circuit simulation
+matlab code to register arteries 
